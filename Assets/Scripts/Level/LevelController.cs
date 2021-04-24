@@ -22,4 +22,8 @@ public class LevelController : MonoBehaviour
 		activeFloor.SetView(newView);
 		OnViewChange.Invoke(activeFloor.activeViewObject, activeFloor.curView, 0);
 	}
+
+	private void Start() {
+		SetView(0);
+	}
 }

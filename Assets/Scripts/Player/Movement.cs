@@ -11,10 +11,12 @@ public class Movement : MonoBehaviour
 	public float fallMult = 2f;
 	public float lowJumpMult = 2f;
 	public bool pauseMovement = false;
+	public float movementSmoothing = 0.5f;
 	private Collider2D plyrCol;
 	private Rigidbody2D plyrRb;
 	private Collider2D jumpOffCollider;
 	private float jumpTimer = -1f;
+	private Vector2 curMovementVelocity = new Vector2(0, 0);
 
 	// Start is called before the first frame update
 	private void Awake() {
@@ -23,8 +25,9 @@ public class Movement : MonoBehaviour
 	}
 
 	public Collider2D PlayerOnGround(){ // Returns the collider, upon which the player is standing
-		Vector3 plyrFeetPos = new Vector3(transform.position.x, transform.position.y - plyrCol.bounds.extents.y, transform.position.z);
-		RaycastHit2D hit = Physics2D.Linecast(plyrFeetPos, plyrFeetPos - new Vector3(0, groundCheckDist, 0), ~LayerMask.GetMask("NonJumpable"));
+		Vector2 plyrFeetPos = new Vector3(transform.position.x, transform.position.y - plyrCol.bounds.extents.y);
+		Vector2 boxSize = new Vector2(plyrCol.bounds.extents.x * 2, groundCheckDist);
+		RaycastHit2D hit = Physics2D.BoxCast(plyrFeetPos, boxSize, 0, -transform.up, groundCheckDist, ~LayerMask.GetMask("NonJumpable"));
 
 		if(hit.collider == jumpOffCollider) return null;
 		if(hit) return hit.collider;
@@ -45,15 +48,15 @@ public class Movement : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		if(pauseMovement) return;
-
 		float horizInput = Input.GetAxis("Horizontal");
 
-		if(horizInput != 0){
-			transform.position += new Vector3(horizInput * speed * Time.deltaTime, 0, 0);
+		if(horizInput != 0 && !pauseMovement){
+			Vector2 vel = new Vector2();
+			Vector2 targetVelocity = new Vector2(speed * horizInput, plyrRb.velocity.y);
+			plyrRb.velocity = Vector2.SmoothDamp(plyrRb.velocity, targetVelocity, ref vel, movementSmoothing);
 		}
 
-		if(Input.GetButton("Jump") && jumpTimer == -1){
+		if(Input.GetButton("Jump") && jumpTimer == -1 && !pauseMovement){
 			Jump();
 		}
 

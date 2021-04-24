@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GravityGun : MonoBehaviour
 {
+	public GameObject levelControllerObj;
 	public float maxGrabDistance = 10f;
 	public float maxHoldDistance = 2f;
 	public float maxGrabSpeed = 5f;
@@ -15,6 +16,7 @@ public class GravityGun : MonoBehaviour
 	public GameObject dragTarget = null;
 	private Rigidbody2D targetRb;
 	private float releaseTimer = -1f;
+	private LevelController levelController;
 
 	public void Grab(){
 		if(holdTarget) return;
@@ -91,6 +93,10 @@ public class GravityGun : MonoBehaviour
 		releaseTimer = releaseDelay;
 	}
 
+	private void Awake() {
+		levelController = levelControllerObj.GetComponent<LevelController>();
+	}
+
 	private void Update() {
 		if(holdTarget){
 			Vector2 cursorPos = PlayerController.GetCursorWorldPos();
@@ -103,6 +109,26 @@ public class GravityGun : MonoBehaviour
 			float distanceToTargetPos = Vector2.Distance(targetPos, holdTarget.transform.position);
 
 			targetRb.velocity = targetPosDirection * holdMoveSpeed * (distanceToTargetPos / holdDistance);
+
+			/* Vector2 cursorPos = PlayerController.GetCursorWorldPos();
+			Vector2 cursorDirection = (cursorPos - (Vector2) transform.position).normalized;
+			Vector2 cursorPosClampedToLevel = levelController.activeFloor.LevelPositionToWorldPosition(cursorPos);
+			float cursorDist = levelController.activeFloor.PositionDistanceInLevel(transform.position, cursorPosClampedToLevel);
+
+			Debug.Log("cursor dist: " + cursorDist);
+
+			float holdDistance = Mathf.Clamp(cursorDist, 0, maxHoldDistance);
+			Vector3 targetPos = levelController.activeFloor.LevelPositionToWorldPosition(transform.position + (Vector3) cursorDirection * holdDistance);
+			Vector2 targetPosDirection = (targetPos - holdTarget.transform.position).normalized;
+			float distanceToTargetPos = levelController.activeFloor.PositionDistanceInLevel(targetPos, holdTarget.transform.position);
+
+			Debug.Log("distToTargetPos: " + distanceToTargetPos);
+
+			if(distanceToTargetPos > 5){
+				Debug.Log(holdTarget.transform.position);
+			}
+
+			targetRb.velocity = targetPosDirection * holdMoveSpeed * (distanceToTargetPos / holdDistance); */
 		}
 
 		if(releaseTimer != -1){

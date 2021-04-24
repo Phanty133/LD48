@@ -13,18 +13,6 @@ public class PlayerController : MonoBehaviour
 	private LevelController levelController;
 	private GravityGun gravityGun;
 
-	public void OnChangeView(GameObject viewObj, int viewID, int direction){
-		if(direction == 1 && viewID == 0){
-			transform.position = new Vector3(levelController.activeFloor.viewBounds.left, transform.position.y, transform.position.z);
-		}
-		else if(direction == -1 && viewID == levelController.activeFloor.views.Length - 1){
-			transform.position = new Vector3(levelController.activeFloor.viewBounds.right, transform.position.y, transform.position.z);
-		}
-		else if(direction == 0){
-			// idk do something?
-		}
-	}
-
 	public static Vector2 GetCursorWorldPos(){
 		return Camera.main.ScreenToWorldPoint(Input.mousePosition);	
 	}
@@ -69,20 +57,21 @@ public class PlayerController : MonoBehaviour
 
 		if(Input.GetButtonDown("Fire2")){
 			if(gravityGun.holdTarget){
-				Debug.Log("release");
 				gravityGun.Release();
 			}
 		}
 	}
 	
 	private void LateUpdate() {
-		ViewBounds viewBounds = levelController.activeFloor.viewBounds;
+		/* ViewBounds viewBounds = levelController.activeFloor.viewBounds;
+		Vector3 activeViewPos = levelController.activeFloor.activeViewObject.transform.position;
+		float viewWidth = levelController.activeFloor.activeViewObject.GetComponent<ViewController>().width;
 
-		if(transform.position.x < viewBounds.left){
+		if(transform.position.x < activeViewPos.x - viewWidth / 2){
 			levelController.PrevView();
 		}
-		else if(transform.position.x > viewBounds.right){
+		else if(transform.position.x > activeViewPos.x + viewWidth / 2){
 			levelController.NextView();
-		}
+		} */
 	}
 }
