@@ -12,7 +12,7 @@ TagManager:
   - Water
   - UI
   - NonJumpable
-  - 
+  - PhysicsObject
   - 
   - 
   - 
@@ -40,4 +40,22 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 2514034397
+    locked: 0
+  - name: Level
+    uniqueID: 3337609409
+    locked: 0
+  - name: Player
+    uniqueID: 1081839569
+    locked: 0
+  - name: Particles
+    uniqueID: 3617215177
+    locked: 0
+  - name: Foreground
+    uniqueID: 2829671797
+    locked: 0
+  - name: UI
+    uniqueID: 1161806473
     locked: 0

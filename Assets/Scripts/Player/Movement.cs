@@ -10,6 +10,7 @@ public class Movement : MonoBehaviour
 	public float groundCheckDist = 0.1f;
 	public float fallMult = 2f;
 	public float lowJumpMult = 2f;
+	public bool pauseMovement = false;
 	private Collider2D plyrCol;
 	private Rigidbody2D plyrRb;
 	private Collider2D jumpOffCollider;
@@ -21,7 +22,7 @@ public class Movement : MonoBehaviour
 		plyrRb = GetComponent<Rigidbody2D>();
 	}
 
-	Collider2D PlayerOnGround(){ // Returns the collider, upon which the player is standing
+	public Collider2D PlayerOnGround(){ // Returns the collider, upon which the player is standing
 		Vector3 plyrFeetPos = new Vector3(transform.position.x, transform.position.y - plyrCol.bounds.extents.y, transform.position.z);
 		RaycastHit2D hit = Physics2D.Linecast(plyrFeetPos, plyrFeetPos - new Vector3(0, groundCheckDist, 0), ~LayerMask.GetMask("NonJumpable"));
 
@@ -44,6 +45,8 @@ public class Movement : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
+		if(pauseMovement) return;
+
 		float horizInput = Input.GetAxis("Horizontal");
 
 		if(horizInput != 0){
