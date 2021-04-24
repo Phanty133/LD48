@@ -17,6 +17,11 @@ public class PlayerController : MonoBehaviour
 		return Camera.main.ScreenToWorldPoint(Input.mousePosition);	
 	}
 
+	public void Kill(){
+		alive = false;
+		movement.pauseMovement = true;
+	}
+
 	private void Awake() {
 		movement = GetComponent<Movement>();
 		mainCamera = Camera.main.GetComponent<Camera>();
@@ -40,8 +45,7 @@ public class PlayerController : MonoBehaviour
 
 			if(transform.position.y < cameraTop) return;
 
-			alive = false;
-			GetComponent<Movement>().pauseMovement = true;
+			Kill();
 		}
 
 		if(Input.GetButtonDown("Fire1")){
