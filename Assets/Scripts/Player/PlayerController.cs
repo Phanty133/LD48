@@ -55,7 +55,7 @@ public class PlayerController : MonoBehaviour
 
 			if(transform.position.y < cameraTop) return;
 
-			Kill();
+			Kill(true);
 		}
 
 		if(Input.GetButtonDown("Fire1")){
