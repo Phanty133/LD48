@@ -4,8 +4,14 @@ using UnityEngine;
 
 public class Door : PuzzleElement
 {
-	private Collider2D selfCol;
+	private Collider2D[] selfCols;
 	private SpriteRenderer spriteRenderer;
+
+	public void SetActiveAllColliders(bool state){
+		foreach(Collider2D col in selfCols){
+			col.enabled = state;
+		}
+	}
 
 	public void OnInputTrigger(bool active){
 		if((active && !startActive) || (!active && startActive)){
@@ -19,7 +25,7 @@ public class Door : PuzzleElement
 	}
 
 	private void Awake() {
-		selfCol = GetComponent<Collider2D>();
+		selfCols = GetComponents<Collider2D>();
 		spriteRenderer = GetComponent<SpriteRenderer>();
 
 		OnInputTrigger(false);
@@ -27,12 +33,12 @@ public class Door : PuzzleElement
 
 	private void DoorOpen(){
 		try{
-			selfCol.enabled = false;
+			SetActiveAllColliders(false);
 		}
 		catch{
-			selfCol = GetComponent<Collider2D>();
+			selfCols = GetComponents<Collider2D>();
 			spriteRenderer = GetComponent<SpriteRenderer>();
-			selfCol.enabled = false;
+			SetActiveAllColliders(false);
 		}
 
 		Color openColor = spriteRenderer.color;
@@ -43,12 +49,12 @@ public class Door : PuzzleElement
 
 	private void DoorClose(){
 		try{
-			selfCol.enabled = true;
+			SetActiveAllColliders(true);
 		}
 		catch{
-			selfCol = GetComponent<Collider2D>();
+			selfCols = GetComponents<Collider2D>();
 			spriteRenderer = GetComponent<SpriteRenderer>();
-			selfCol.enabled = true;
+			SetActiveAllColliders(true);
 		}
 
 		Color closedColor = spriteRenderer.color;
