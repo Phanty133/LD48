@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class StartGame : MonoBehaviour
 {
 	public void LoadScene(){
+		Time.timeScale = 1;
 		SceneManager.LoadScene("BaseScene");
 	}
 }
