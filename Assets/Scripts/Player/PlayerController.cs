@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 {
 	public bool alive = true;
 	public GameObject levelObj;
+	public GameObject deathPanel;
 	private Movement movement;
 	private bool plyrInvisible = false;
 	private Camera mainCamera;
@@ -20,6 +21,7 @@ public class PlayerController : MonoBehaviour
 	public void Kill(){
 		alive = false;
 		movement.pauseMovement = true;
+		deathPanel.SetActive(true);
 	}
 
 	private void Awake() {
