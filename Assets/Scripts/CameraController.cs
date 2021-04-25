@@ -7,6 +7,7 @@ public class CameraController : MonoBehaviour
 	public float scrollSpeed = 5f;
 	public bool scrollPaused = false;
 	public float dampTime = 0.5f;
+	public float verticalOffsetFromPlayer = 5f;
 	public GameObject player;
 	public LevelController levelController;
 	private float curDepth = 0f;
@@ -22,7 +23,7 @@ public class CameraController : MonoBehaviour
 		}
 		else{
 			Vector2 curVel = new Vector2();
-			Vector2 dampedPos = Vector2.SmoothDamp(transform.position, player.transform.position, ref curVel, dampTime);
+			Vector2 dampedPos = Vector2.SmoothDamp(transform.position, (Vector2)player.transform.position + new Vector2(0, verticalOffsetFromPlayer), ref curVel, dampTime);
 		
 			transform.position = new Vector3(transform.position.x, dampedPos.y, transform.position.z);
 		}

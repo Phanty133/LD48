@@ -8,7 +8,7 @@ public class Door : PuzzleElement
 	private SpriteRenderer spriteRenderer;
 
 	public void OnInputTrigger(bool active){
-		if(active){
+		if((active && !startActive) || (!active && startActive)){
 			DoorOpen();
 		}
 		else{
@@ -21,6 +21,8 @@ public class Door : PuzzleElement
 	private void Awake() {
 		selfCol = GetComponent<Collider2D>();
 		spriteRenderer = GetComponent<SpriteRenderer>();
+
+		OnInputTrigger(false);
 	}
 
 	private void DoorOpen(){

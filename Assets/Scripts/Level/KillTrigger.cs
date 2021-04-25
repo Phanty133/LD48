@@ -9,4 +9,10 @@ public class KillTrigger : MonoBehaviour
 			other.GetComponent<PlayerController>().Kill();
 		}
 	}
+
+	private void OnCollisionEnter2D(Collision2D other) {
+		if(other.gameObject.tag == "Player"){
+			other.gameObject.GetComponent<PlayerController>().Kill();
+		}
+	}
 }

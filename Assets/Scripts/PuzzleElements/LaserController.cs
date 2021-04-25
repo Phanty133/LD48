@@ -5,7 +5,7 @@ using UnityEngine;
 public class LaserController : PuzzleElement
 {
 	public GameObject laserPrefab;
-	public bool active = true;
+	private bool active = false;
 
 	public void OnInputTrigger(){
 		active = !active;
@@ -31,6 +31,7 @@ public class LaserController : PuzzleElement
 	}
 
 	private void Awake() {
+		active = startActive;
 		if(active) SpawnLaser();
 	}
 }

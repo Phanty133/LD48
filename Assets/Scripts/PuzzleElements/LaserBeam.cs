@@ -10,6 +10,7 @@ public class LaserBeam : MonoBehaviour
 	public Vector2 basePos;
 	private GameObject curInput = null;
 	private GameObject ignoreObj = null;
+	private float prevRotation;
 
 	private void OnTriggerEnter2D(Collider2D other) {
 		if(other.tag == "Player"){
@@ -30,6 +31,7 @@ public class LaserBeam : MonoBehaviour
 	public void FireToDirection(Vector2 dir, GameObject obj = null){
 		laserDir = dir;
 		if(ignoreObj == null) ignoreObj = obj;
+		prevRotation = transform.parent.eulerAngles.z;
 
 		RaycastHit2D[] hitArr = Physics2D.RaycastAll(basePos, dir, maxLaserLen);
 		RaycastHit2D? hitq = null;
@@ -42,6 +44,8 @@ public class LaserBeam : MonoBehaviour
 		}
 
 		float length = hitq != null ? ((RaycastHit2D)hitq).distance : maxLaserLen;
+		length = Mathf.Max(length, 0.1f); // Prevents the collider being set to 0 length
+
 		transform.position = (Vector2)basePos + dir * length / 2;
 		transform.localScale = new Vector3(laserWidth, length, 0);
 
@@ -64,6 +68,12 @@ public class LaserBeam : MonoBehaviour
 	private void OnDestroy() {
 		if(curInput != null){
 			curInput.GetComponent<LaserInput>().Deactivate();
+		}
+	}
+
+	private void Update() {
+		if(transform.parent.eulerAngles.z != prevRotation){
+			FireToDirection(transform.parent.up, ignoreObj);
 		}
 	}
 }
