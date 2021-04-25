@@ -26,7 +26,14 @@ public class Door : PuzzleElement
 	}
 
 	private void DoorOpen(){
-		selfCol.enabled = false;
+		try{
+			selfCol.enabled = false;
+		}
+		catch{
+			selfCol = GetComponent<Collider2D>();
+			spriteRenderer = GetComponent<SpriteRenderer>();
+			selfCol.enabled = false;
+		}
 
 		Color openColor = spriteRenderer.color;
 		openColor.a = 0.15f;
@@ -35,7 +42,14 @@ public class Door : PuzzleElement
 	}
 
 	private void DoorClose(){
-		selfCol.enabled = true;
+		try{
+			selfCol.enabled = true;
+		}
+		catch{
+			selfCol = GetComponent<Collider2D>();
+			spriteRenderer = GetComponent<SpriteRenderer>();
+			selfCol.enabled = true;
+		}
 
 		Color closedColor = spriteRenderer.color;
 		closedColor.a = 1f;
