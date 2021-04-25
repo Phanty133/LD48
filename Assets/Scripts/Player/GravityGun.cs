@@ -5,6 +5,7 @@ using UnityEngine;
 public class GravityGun : MonoBehaviour
 {
 	public GameObject levelControllerObj;
+	public bool enableGravityGun = true;
 	public float maxGrabDistance = 10f;
 	public float maxHoldDistance = 2f;
 	public float maxGrabSpeed = 5f;
@@ -21,6 +22,7 @@ public class GravityGun : MonoBehaviour
 	private GameObject holdEffectObj;
 
 	public void Grab(){
+		if(!enableGravityGun) return;
 		if(holdTarget) return;
 		if(releaseTimer != -1) return;
 
@@ -71,6 +73,7 @@ public class GravityGun : MonoBehaviour
 	}
 
 	public void Fire(){
+		if(!enableGravityGun) return;
 		if(!holdTarget) return;
 
 		Vector2 cursorDirection = (PlayerController.GetCursorWorldPos() - (Vector2) transform.position).normalized;
@@ -84,6 +87,8 @@ public class GravityGun : MonoBehaviour
 	}
 
 	public void Release(){
+		if(!dragTarget && !holdTarget) return;
+
 		if(dragTarget){
 			dragTarget = null;	
 		}

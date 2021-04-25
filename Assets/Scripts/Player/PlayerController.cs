@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
 	public bool alive = true;
 	public GameObject levelObj;
 	public GameObject deathPanel;
+	public Vector2 respawnPosition;
 	private Movement movement;
 	private bool plyrInvisible = false;
 	private Camera mainCamera;
@@ -18,10 +19,17 @@ public class PlayerController : MonoBehaviour
 		return Camera.main.ScreenToWorldPoint(Input.mousePosition);	
 	}
 
-	public void Kill(){
-		alive = false;
-		movement.pauseMovement = true;
-		deathPanel.SetActive(true);
+	public void Kill(bool perm = false){
+		if(perm){
+			gravityGun.enableGravityGun = false;
+			alive = false;
+			movement.pauseMovement = true;
+			deathPanel.SetActive(true);
+		}
+		else{
+			gravityGun.Release();
+			transform.position = respawnPosition;
+		}
 	}
 
 	private void Awake() {
