@@ -20,6 +20,7 @@ public class GravityGun : MonoBehaviour
 	private float releaseTimer = -1f;
 	private LevelController levelController;
 	private GameObject holdEffectObj;
+	private PlayerAudioController playerAudioController;
 
 	public void Grab(){
 		if(!enableGravityGun) return;
@@ -56,7 +57,8 @@ public class GravityGun : MonoBehaviour
 				holdTarget = dragTarget;
 				dragTarget = null;
 				targetRb.velocity = GetComponent<Rigidbody2D>().velocity;
-				
+				playerAudioController.PlayClip(0);
+
 				return;
 			}
 
@@ -84,6 +86,7 @@ public class GravityGun : MonoBehaviour
 		targetRb = null;
 
 		Destroy(holdEffectObj);
+		playerAudioController.PlayClip(2);
 	}
 
 	public void Release(){
@@ -104,10 +107,12 @@ public class GravityGun : MonoBehaviour
 		releaseTimer = releaseDelay;
 		
 		Destroy(holdEffectObj);
+		playerAudioController.PlayClip(1);
 	}
 
 	private void Awake() {
 		levelController = levelControllerObj.GetComponent<LevelController>();
+		playerAudioController = GetComponent<PlayerAudioController>();
 	}
 
 	private void Update() {

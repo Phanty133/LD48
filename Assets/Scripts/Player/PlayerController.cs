@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
 	private Camera mainCamera;
 	private LevelController levelController;
 	private GravityGun gravityGun;
+	private PlayerAudioController playerAudioController;
 
 	public static Vector2 GetCursorWorldPos(){
 		return Camera.main.ScreenToWorldPoint(Input.mousePosition);	
@@ -29,6 +30,7 @@ public class PlayerController : MonoBehaviour
 		else{
 			gravityGun.Release();
 			transform.position = respawnPosition;
+			playerAudioController.PlayClip(3);
 		}
 	}
 
@@ -37,6 +39,7 @@ public class PlayerController : MonoBehaviour
 		mainCamera = Camera.main.GetComponent<Camera>();
 		levelController = levelObj.GetComponent<LevelController>();
 		gravityGun = GetComponent<GravityGun>();
+		playerAudioController = GetComponent<PlayerAudioController>();
 	}
 
 	private void OnBecameInvisible() {

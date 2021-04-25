@@ -6,6 +6,8 @@ public class Door : PuzzleElement
 {
 	private Collider2D[] selfCols;
 	private SpriteRenderer spriteRenderer;
+	public bool playAudioOnOpen = false;
+	public AudioClip openAudioClip;
 
 	public void SetActiveAllColliders(bool state){
 		foreach(Collider2D col in selfCols){
@@ -45,6 +47,10 @@ public class Door : PuzzleElement
 		openColor.a = 0.15f;
 
 		spriteRenderer.color = openColor;
+
+		if(playAudioOnOpen){
+			GetComponent<AudioSource>().PlayOneShot(openAudioClip);
+		}
 	}
 
 	private void DoorClose(){
