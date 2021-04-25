@@ -29,6 +29,7 @@ MonoBehaviour:
         m_CallState: 2
   startActive: 1
   frequency: 1
+  delay: 1
   holdTime: 1
   startDelay: 0
 --- !u!1001 &8924055229578128293

@@ -6,6 +6,7 @@ public class LaserController : PuzzleElement
 {
 	public GameObject laserPrefab;
 	private bool active = false;
+	private GameObject activeLaser;
 
 	public void OnInputTrigger(){
 		active = !active;
@@ -19,15 +20,15 @@ public class LaserController : PuzzleElement
 	}
 
 	public void SpawnLaser(){
-		GameObject laserObj = Instantiate(laserPrefab, transform.position, transform.rotation, transform);
-		LaserBeam laser = laserObj.GetComponent<LaserBeam>();
+		activeLaser = Instantiate(laserPrefab, transform.position, transform.rotation, transform);
+		LaserBeam laser = activeLaser.GetComponent<LaserBeam>();
 
 		laser.basePos = transform.position;
 		laser.FireToDirection(transform.up, gameObject);
 	}
 
 	public void KillLaser(){
-		Destroy(transform.GetChild(0).gameObject);
+		Destroy(activeLaser);
 	}
 
 	private void Awake() {

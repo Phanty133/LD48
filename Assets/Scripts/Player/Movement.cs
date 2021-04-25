@@ -26,7 +26,7 @@ public class Movement : MonoBehaviour
 
 	public Collider2D PlayerOnGround(){ // Returns the collider, upon which the player is standing
 		Vector2 plyrFeetPos = new Vector3(transform.position.x, transform.position.y - plyrCol.bounds.extents.y);
-		Vector2 boxSize = new Vector2(plyrCol.bounds.extents.x * 1.75f, groundCheckDist);
+		Vector2 boxSize = new Vector2(plyrCol.bounds.extents.x, groundCheckDist);
 		RaycastHit2D hit = Physics2D.BoxCast(plyrFeetPos, boxSize, 0, -transform.up, groundCheckDist, ~LayerMask.GetMask("NonJumpable"));
 
 		if(hit.collider == jumpOffCollider) return null;
