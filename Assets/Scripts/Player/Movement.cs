@@ -17,11 +17,14 @@ public class Movement : MonoBehaviour
 	private Collider2D jumpOffCollider;
 	private float jumpTimer = -1f;
 	private Vector2 curMovementVelocity = new Vector2(0, 0);
+	private Animator animator;
+	private bool isMovingCheck = false;
 
 	// Start is called before the first frame update
 	private void Awake() {
 		plyrCol = GetComponent<Collider2D>();
 		plyrRb = GetComponent<Rigidbody2D>();
+		animator = GetComponent<Animator>();
 	}
 
 	public Collider2D PlayerOnGround(){ // Returns the collider, upon which the player is standing
@@ -43,6 +46,8 @@ public class Movement : MonoBehaviour
 		plyrRb.velocity += new Vector2(0, jump);
 		jumpOffCollider = gndCol;
 		jumpTimer = jumpDelay;
+
+		animator.SetTrigger("Jump");
 	}
 
 	// Update is called once per frame
@@ -54,6 +59,17 @@ public class Movement : MonoBehaviour
 			Vector2 vel = new Vector2();
 			Vector2 targetVelocity = new Vector2(speed * horizInput, plyrRb.velocity.y);
 			plyrRb.velocity = Vector2.SmoothDamp(plyrRb.velocity, targetVelocity, ref vel, movementSmoothing);
+
+			if(!isMovingCheck){
+				isMovingCheck = true;
+
+				// animator.SetBool("MoveRight", horizInput > 0);
+				// animator.SetBool("IsMoving", true);
+			}
+		}
+		else if(isMovingCheck){
+			// animator.SetBool("IsMoving", false);
+			isMovingCheck = false;
 		}
 
 		if(Input.GetButton("Jump") && jumpTimer == -1 && !pauseMovement){

@@ -12,11 +12,13 @@ public class GravityGun : MonoBehaviour
 	public float holdMoveSpeed = 5f;
 	public float fireForce = 20f;
 	public float releaseDelay = 0.5f; // Delay is applied after release+
+	public GameObject holdEffectPrefab;
 	public GameObject holdTarget = null;
 	public GameObject dragTarget = null;
 	private Rigidbody2D targetRb;
 	private float releaseTimer = -1f;
 	private LevelController levelController;
+	private GameObject holdEffectObj;
 
 	public void Grab(){
 		if(holdTarget) return;
@@ -32,6 +34,8 @@ public class GravityGun : MonoBehaviour
 				dragTarget = hit.collider.gameObject;
 				targetRb = dragTarget.GetComponent<Rigidbody2D>();
 				targetRb.gravityScale = 0;
+
+				holdEffectObj = Instantiate(holdEffectPrefab, hit.collider.transform.position, hit.collider.transform.rotation, hit.collider.transform);
 			}
 			else{
 				Debug.DrawRay(transform.position, direction, Color.red, 5);
@@ -75,6 +79,8 @@ public class GravityGun : MonoBehaviour
 
 		targetRb.AddForce(cursorDirection * fireForce, ForceMode2D.Impulse);
 		targetRb = null;
+
+		Destroy(holdEffectObj);
 	}
 
 	public void Release(){
@@ -91,6 +97,8 @@ public class GravityGun : MonoBehaviour
 		targetRb = null;
 
 		releaseTimer = releaseDelay;
+		
+		Destroy(holdEffectObj);
 	}
 
 	private void Awake() {
